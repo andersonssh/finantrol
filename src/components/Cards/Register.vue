@@ -55,29 +55,29 @@ import DeleteOrEdit from "../Dropdowns/EditOrDelete.vue";
 export default defineComponent({
     name: "Register", 
     data(){
-        return {
-            register: {
-                description: "Viagem de fim de ano",
-                category: "casa",
-                isRequired: true
-            },
-            value: 0,
-            isProfit: false,
-            categoryImages: {
-                casa: "/src/assets/category/casa.png",
-                comida: "/src/assets/category/comida.png",
-                contas: "/src/assets/category/contas.png",
-                educacao: "/src/assets/category/educacao.png",
-                entretenimento: "/src/assets/category/entretenimento.png",
-                investimentos: "/src/assets/category/investimentos.png",
-                lazer: "/src/assets/category/lazer.png",
-                livre: "/src/assets/category/livre.png",
-                outros: "/src/assets/category/outros.png",
-                saude: "/src/assets/category/saude.png",
-                transporte: "/src/assets/category/transporte.png",
-                viagem: "/src/assets/category/viagem.png"
-            }
+      return {
+          register: {
+              description: "Viagem de fim de ano",
+              category: "casa",
+              isRequired: true
+          },
+          value: 0,
+          isProfit: false,
+          categoryImages: {
+            casa: "/src/assets/category/casa.png",
+            comida: "/src/assets/category/comida.png",
+            contas: "/src/assets/category/contas.png",
+            educacao: "/src/assets/category/educacao.png",
+            entretenimento: "/src/assets/category/entretenimento.png",
+            investimentos: "/src/assets/category/investimentos.png",
+            lazer: "/src/assets/category/lazer.png",
+            livre: "/src/assets/category/livre.png",
+            outros: "/src/assets/category/outros.png",
+            saude: "/src/assets/category/saude.png",
+            transporte: "/src/assets/category/transporte.png",
+            viagem: "/src/assets/category/viagem.png"
         }
+      }
     },
     components: {DeleteOrEdit},
     methods: {
