@@ -1,7 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* Removes blue background when clicking a button on mobile */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
 .btn {
   @apply py-2 px-4 font-semibold rounded-lg shadow-md disabled:opacity-50
    disabled:cursor-not-allowed ;
