@@ -11,12 +11,12 @@
     </div>
     <div class="absolute bottom-0 w-full bg-red-500 text-center">
         ENTRADAS: {{ totalEntries }}
-        <button @click="toggleRegisterModalIsOpen" class="rounded-full w-40 h-40 bg-yellow-50">
+        <button @click="newRegisterEvent" class="rounded-full w-40 h-40 bg-yellow-50">
             criar novo registro
         </button>
         SAIDAS: {{ Math.abs(totalExits) }}
     </div>
-    <RegisterModal @submit="registerModalSubmitHandler" @cancel="toggleRegisterModalIsOpen" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
+    <RegisterModal @submit="registerModalSubmitHandler" @cancel="registerModalCancelHandler" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
 </template>
 
 <script lang="ts">
@@ -69,11 +69,11 @@ export default {
         },
         newRegisterEvent(){
             this.registerOnModal = {}
-            this.toggleRegisterModalIsOpen()
+            this.registerModalIsOpen = true
         },
         editRegisterEvent(register: RegisterInterface){
             this.registerOnModal = register
-            this.toggleRegisterModalIsOpen()
+            this.registerModalIsOpen = true
         },
         registerModalSubmitHandler(register: RegisterInterface){
             if(register._id){
@@ -81,10 +81,12 @@ export default {
             }else{
                 this.postRegister(register)
             }
-            this.toggleRegisterModalIsOpen()
+            this.registerOnModal = {}
+            this.registerModalIsOpen = false
         },
-        toggleRegisterModalIsOpen(){
-            this.registerModalIsOpen = !this.registerModalIsOpen
+        registerModalCancelHandler(){
+            this.registerOnModal = {}
+            this.registerModalIsOpen = false
         }
     },
     components: {
