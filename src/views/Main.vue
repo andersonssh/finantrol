@@ -10,9 +10,11 @@
         />
     </div>
     <div class="absolute bottom-0 w-full bg-red-500 text-center">
-        <button @click="toggleRegisterModalIsOpen">
+        ENTRADAS: {{ totalEntries }}
+        <button @click="toggleRegisterModalIsOpen" class="rounded-full w-40 h-40 bg-yellow-50">
             criar novo registro
         </button>
+        SAIDAS: {{ Math.abs(totalExits) }}
     </div>
     <RegisterModal @submit="registerModalSubmitHandler" @cancel="toggleRegisterModalIsOpen" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
 </template>
@@ -21,7 +23,7 @@
 import Register from "../components/Cards/Register.vue";
 import api from "../axios";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
-import { Register as RegisterInterface } from '../register';
+import { Register as RegisterInterface, getTotal, getEntries, getExits } from '../register';
 
 export default {
     name: "Main",
@@ -30,8 +32,8 @@ export default {
             registers: [],
 
             total: 0,
-            entry: 0,
-            exit: 0,
+            totalEntries: 0,
+            totalExits: 0,
             registerModalIsOpen: false,
             registerOnModal: {}
         };
@@ -43,7 +45,9 @@ export default {
         getRegisters() {
             api.get("/registers").then((response) => {
                 this.registers = response.data.data;
-                this.total = 20
+                this.total = getTotal(this.registers)
+                this.totalEntries = getTotal(getEntries(this.registers))
+                this.totalExits = getTotal(getExits(this.registers))
             });
 
         },
@@ -81,7 +85,7 @@ export default {
         },
         toggleRegisterModalIsOpen(){
             this.registerModalIsOpen = !this.registerModalIsOpen
-        },
+        }
     },
     components: {
         Register,

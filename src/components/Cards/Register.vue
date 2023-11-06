@@ -105,7 +105,7 @@ export default defineComponent({
         initValues() {
             this.isExpense = this.register.category != "entradas";
         },
-        updateIsPaid(e) {
+        updateIsPaid(e: any) {
             api.patch(`/registers/${this.register._id}`, {
                 isPaid: e.target.checked,
             }).then(() => {
