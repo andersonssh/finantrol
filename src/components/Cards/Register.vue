@@ -19,7 +19,7 @@
 
         <div class="w-full max-w-full pl-2 pr-4 py-3 sm:py-4 sm:pl-3">
             <div class="font-semibold text-gray-100 my-2 hover:underline text-lg">
-                {{ register.description }}
+                {{ register.description || "Sem descrição" }}
             </div>
             <div class="flex">
                 <div class="text-4xl sm:text-5xl mb-4 w-full flex text-gray-100 items-center">
