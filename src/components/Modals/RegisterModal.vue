@@ -187,16 +187,11 @@ import {
     Switch,
 } from "@headlessui/vue";
 import { PencilSquareIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { Register } from "../../register";
 export default {
     data() {
         return {
-            register: {
-                description: "seila",
-                category: "casa",
-                isPercentage: false,
-                isRequired: false,
-                value: 200
-            },
+            register: {} as Register,
 
             open: true,
             categories: [
@@ -224,8 +219,9 @@ export default {
                 category: "outros",
                 isPercentage: false,
                 isRequired: false,
+                isPaid: false,
                 value: 0
-            }
+            } as Register
         }
     },
     emits: [

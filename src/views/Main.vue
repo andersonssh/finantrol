@@ -1,15 +1,19 @@
 <template>
     <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto bg-yellow-500">
-        <div class="text-5xl text-center mt-10 mb-10">total: {{ exit }}</div>
+        <div class="text-5xl text-center mt-10 mb-10">total: {{ total }}</div>
         <Register
             :registerProp="register"
             @delete="deleteRegister(register)"
             @edit="editRegisterEvent(register)"
             v-for="register in registers"
-            v-bind:key="register._id"
+            v-bind:key="JSON.stringify(register)"
         />
     </div>
-    <div class="absolute bottom-0 w-full bg-red-500 text-center">x</div>
+    <div class="absolute bottom-0 w-full bg-red-500 text-center">
+        <button @click="toggleRegisterModalIsOpen">
+            criar novo registro
+        </button>
+    </div>
     <RegisterModal @submit="registerModalSubmitHandler" @cancel="toggleRegisterModalIsOpen" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
 </template>
 
@@ -17,6 +21,7 @@
 import Register from "../components/Cards/Register.vue";
 import api from "../axios";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
+import { Register as RegisterInterface } from '../register';
 
 export default {
     name: "Main",
@@ -24,9 +29,9 @@ export default {
         return {
             registers: [],
 
-            total: 100,
-            entry: 200,
-            exit: 100,
+            total: 0,
+            entry: 0,
+            exit: 0,
             registerModalIsOpen: false,
             registerOnModal: {}
         };
@@ -35,43 +40,48 @@ export default {
         this.getRegisters();
     },
     methods: {
-        async getRegisters() {
-            const response = await api.get("/registers");
-            this.registers = response.data.data;
+        getRegisters() {
+            api.get("/registers").then((response) => {
+                this.registers = response.data.data;
+                this.total = 20
+            });
+
         },
         //update register
-        async updateRegister(register) {
-            const response = await api.put(`/registers/${register._id}`, register);
-            this.getRegisters();
+        updateRegister(register: RegisterInterface) {
+            api.put(`/registers/${register._id}`, register).then((_) => {
+                this.getRegisters();
+            });
         },
-        async postRegister(register){
-            const response = await api.post("/registers", register)
-            this.getRegisters();
+        postRegister(register: RegisterInterface){
+            api.post(`/registers`, register).then((_) => {
+                this.getRegisters();
+            });
         },
-        async deleteRegister(register) {
-            const response = await api.delete(`/registers/${register._id}`);
-            this.getRegisters();
+        deleteRegister(register: RegisterInterface) {
+            api.delete(`/registers/${register._id}`).then((_) => {
+                this.getRegisters();
+            });
         },
         newRegisterEvent(){
             this.registerOnModal = {}
             this.toggleRegisterModalIsOpen()
         },
-        editRegisterEvent(register){
+        editRegisterEvent(register: RegisterInterface){
             this.registerOnModal = register
             this.toggleRegisterModalIsOpen()
         },
-        registerModalSubmitHandler(register){
+        registerModalSubmitHandler(register: RegisterInterface){
             if(register._id){
                 this.updateRegister(register)
             }else{
                 this.postRegister(register)
             }
-            this.getRegisters()
             this.toggleRegisterModalIsOpen()
         },
         toggleRegisterModalIsOpen(){
             this.registerModalIsOpen = !this.registerModalIsOpen
-        }
+        },
     },
     components: {
         Register,

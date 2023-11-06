@@ -9,7 +9,7 @@
         <div class="rounded-full flex items-center justify-center ml-2">
             <img
                 class="object-cover m-3 h-20 sm:h-24 rounded-full"
-                :src="categoryImages[register.category] ?? categoryImages['outros']"
+                :src="getRegisterImageSrc(register.category)"
                 alt="card 1"
             />
         </div>
@@ -61,13 +61,13 @@
 import { defineComponent } from "vue";
 import DeleteOrEdit from "../Dropdowns/EditOrDelete.vue";
 import api from "../../axios";
-import { getRegisterValue } from "../../registerUtils";
+import { getRegisterValue, Register } from "../../register";
 
 export default defineComponent({
     name: "Register",
     data() {
         return {
-            register: {},
+            register: {} as Register,
             isExpense: false,
             categoryImages: {
                 entradas: "/src/assets/categories/entradas.png",
@@ -83,7 +83,7 @@ export default defineComponent({
                 saúde: "/src/assets/categories/saude.png",
                 transporte: "/src/assets/categories/transporte.png",
                 viagem: "/src/assets/categories/viagem.png",
-            },
+            } as Record<string, string>
         };
     },
     mounted() {
@@ -111,7 +111,10 @@ export default defineComponent({
             }).then(() => {
                 console.debug("isPaid updated!");
             });
-        }
+        },
+        getRegisterImageSrc(category: string) {
+            return this.categoryImages[category];
+        },
     },
 });
 </script>
@@ -177,3 +180,4 @@ export default defineComponent({
     stroke-dashoffset: 0;
 }
 </style>
+../../register
