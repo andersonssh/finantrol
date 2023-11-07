@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{
-            'rounded relative border md:shadow max-w-md flex': true,
+            'relative border border-gray-400 md:shadow max-w-md flex': true,
             'bg-green-500': !isExpense,
             'bg-red-600': isExpense,
         }"
@@ -171,7 +171,7 @@ export default defineComponent({
     cursor: pointer;
 }
 .checkbox-wrapper-31 input[type="checkbox"]:checked + svg .background {
-    fill: #0beb30;
+    fill: #661111;
 }
 .checkbox-wrapper-31 input[type="checkbox"]:checked + svg .stroke {
     stroke-dashoffset: 0;
