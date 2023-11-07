@@ -1,20 +1,46 @@
 <template>
-    <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto bg-yellow-500">
-        <div class="text-5xl text-center mt-10 mb-10">total: {{ total }}</div>
-        <Register
-            :registerProp="register"
-            @delete="deleteRegister(register)"
-            @edit="editRegisterEvent(register)"
-            v-for="register in registers"
-            v-bind:key="JSON.stringify(register)"
-        />
+    <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto">
+        <div class="text-2xl md:text-4xl text-center mt-5 mb-5">
+            <div>
+                    TOTAL
+            </div>
+            <div>
+                {{ total }}
+            </div>
+        </div>
+        <div class="flex flex-row flex-wrap justify-center">
+            <Register
+                :registerProp="register"
+                @delete="deleteRegister(register)"
+                @edit="editRegisterEvent(register)"
+                v-for="register in registers"
+                v-bind:key="JSON.stringify(register)"
+                class="m-2 sm:m-3 md:m-4 w-[400px] sm:w-[350px]"
+            />
+        </div>
+        
     </div>
-    <div class="absolute bottom-0 w-full bg-red-500 text-center">
-        ENTRADAS: {{ totalEntries }}
-        <button @click="newRegisterEvent" class="rounded-full w-40 h-40 bg-yellow-50">
-            criar novo registro
+    <div class="absolute bottom-0 w-full text-center flex flex-row justify-center items-center bg-[#CBF9CB] z-20">
+        <div class="mr-10">
+            <div class="text-lg sm:text-2xl md:text-4xl text-green-700">
+                ENTRADAS
+            </div>
+            <span class="text-lg sm:text-2xl md:text-4xl">
+                {{ totalEntries }}
+            </span>
+        </div>
+        
+        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#18c5f0] mx-4 my-4 btn-animated">
+            <i class="fa-solid fa-plus text-white text-5xl"></i>
         </button>
-        SAIDAS: {{ Math.abs(totalExits) }}
+        <div class="ml-10">
+            <div class="text-lg sm:text-2xl md:text-4xl text-red-700">
+                SAÍDAS
+            </div>
+            <span class="text-lg sm:text-2xl md:text-4xl">
+                {{ totalExits }}
+            </span>
+        </div>
     </div>
     <RegisterModal @submit="registerModalSubmitHandler" @cancel="registerModalCancelHandler" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
 </template>
