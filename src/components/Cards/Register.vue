@@ -171,7 +171,7 @@ export default defineComponent({
     cursor: pointer;
 }
 .checkbox-wrapper-31 input[type="checkbox"]:checked + svg .background {
-    fill: #661111;
+    fill: #B81F1F;
 }
 .checkbox-wrapper-31 input[type="checkbox"]:checked + svg .stroke {
     stroke-dashoffset: 0;
