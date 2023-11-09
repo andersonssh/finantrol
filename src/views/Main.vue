@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto">
+    <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto bg-black">
         <div class="text-2xl md:text-4xl text-center mt-5 mb-5">
             <div>
                     TOTAL
@@ -13,7 +13,7 @@
                 :registerProp="register"
                 @delete="deleteRegister(register)"
                 @edit="editRegisterEvent(register)"
-                v-for="register in registers"
+                v-for="register in getSortedRegisters(registers)"
                 v-bind:key="JSON.stringify(register)"
                 class="m-2 sm:m-3 md:m-4 w-[400px] sm:w-[350px]"
             />
@@ -49,7 +49,7 @@
 import Register from "../components/Cards/Register.vue";
 import api from "../axios";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
-import { Register as RegisterInterface, getTotal, getEntries, getExits } from '../register';
+import { Register as RegisterInterface, getTotal, getEntries, getExits, getSortedRegisters } from '../register';
 
 export default {
     name: "Main",
@@ -113,7 +113,8 @@ export default {
         registerModalCancelHandler(){
             this.registerOnModal = {}
             this.registerModalIsOpen = false
-        }
+        },
+        getSortedRegisters
     },
     components: {
         Register,
