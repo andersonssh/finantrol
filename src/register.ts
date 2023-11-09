@@ -9,12 +9,33 @@ export interface Register {
     value: number;
 }
 
-export function getRegisterValue(register: Register) {
-    if (register.isPercentage) {
-        return register.percentageOn.reduce((acc, cur) => acc + cur.value, 0);
+export const categories = [
+    "entradas",
+    "casa",
+    "comida",
+    "contas",
+    "educação",
+    "entretenimento",
+    "investimentos",
+    "lazer",
+    "livre",
+    "saúde",
+    "transporte",
+    "viagem",
+    "outros",
+]
+
+export function getSortedRegisters(registers: Array<Register>){
+    if(registers.length === 0) return []
+
+    let sortedRegisters: Register[] = []
+    for(let category of categories){
+        let selectedRegisters: Register[] = registers.filter((reg) => reg.category == category)
+        sortedRegisters.push(...selectedRegisters)
     }
-    return register.value;
+    return sortedRegisters
 }
+
 
 export function getTotal(registers: Array<Register>){
     let sumEntries = getEntries(registers).reduce(
@@ -25,9 +46,18 @@ export function getTotal(registers: Array<Register>){
 }
 
 
+export function getRegisterValue(register: Register) {
+    if (register.isPercentage) {
+        return register.percentageOn.reduce((acc, cur) => acc + cur.value, 0);
+    }
+    return register.value;
+}
+
+
 export function getEntries(registers: Array<Register>){
     return registers.filter((reg) => !isExpense(reg))
 }
+
 
 export function getExits(registers: Array<Register>){
     return registers.filter((reg) => isExpense(reg))
