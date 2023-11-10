@@ -180,4 +180,3 @@ export default defineComponent({
     stroke-dashoffset: 0;
 }
 </style>
-../../register
