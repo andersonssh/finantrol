@@ -5,7 +5,11 @@ import Navbar from "./components/Navbar.vue";
 <template>
     <div class="h-screen">
         <Navbar />
-        <router-view></router-view>
+        <div class="h-full pt-16">
+            <router-view >
+            </router-view>
+        </div>
+
     </div>
 </template>
 

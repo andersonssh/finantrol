@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full pt-16 pb-24 pl-10 pr-10 overflow-y-auto bg-black">
+    <div class="h-full pb-24 pl-10 pr-10 overflow-y-auto">
         <div class="text-2xl md:text-4xl text-center mt-5 mb-5">
             <div>
                     TOTAL
@@ -20,9 +20,9 @@
         </div>
         
     </div>
-    <div class="absolute bottom-0 w-full text-center flex flex-row justify-center items-center bg-[#CBF9CB] z-20">
+    <div class="absolute bottom-0 w-full text-center flex flex-row justify-center items-center bg-gradient-to-r from-[#38ef7d] to-[#11998e] z-20">
         <div class="mr-10">
-            <div class="text-lg sm:text-2xl md:text-4xl text-green-700">
+            <div class="text-lg sm:text-2xl md:text-4xl text-green-900">
                 ENTRADAS
             </div>
             <span class="text-lg sm:text-2xl md:text-4xl">
@@ -30,11 +30,11 @@
             </span>
         </div>
         
-        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#18c5f0] mx-4 my-4 btn-animated">
+        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-blue-600 mx-4 my-4 btn-animated">
             <i class="fa-solid fa-plus text-white text-5xl"></i>
         </button>
         <div class="ml-10">
-            <div class="text-lg sm:text-2xl md:text-4xl text-red-700">
+            <div class="text-lg sm:text-2xl md:text-4xl text-red-600">
                 SAÍDAS
             </div>
             <span class="text-lg sm:text-2xl md:text-4xl">
