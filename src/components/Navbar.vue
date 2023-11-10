@@ -11,31 +11,100 @@
                     >Finantrol</span
                 >
             </router-link>
-            <div class="hidden w-full md:block md:w-auto text-gray-100">
-                <router-link to="/contact" class="mx-2">
-                    CONTATO
-                </router-link>
-                <router-link to="/login">
-                    <button class="btn bg-blue-600 mx-2">
-                        ENTRAR
-                    </button>
-                </router-link>
+            <div v-if="isLogged">
+                <div class="relative block -mb-2">
+                    <Menu>
+                        <MenuButton class="h-10 w-10 text-gray-200">
+                            <UserCircleIcon class=""/>
+                        </MenuButton>
 
-                <router-link to="/login">
-                    <button class="btn bg-yellow-500 mx-2">
-                        CADASTRE-SE
-                    </button>
-                </router-link>
+                        <MenuItems class="flex flex-col absolute right-0 bg-slate-200 w-40">
+                            <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border">
+                                <div :class='{ "bg-blue-500": active }' @click="$emit('exit')">
+                                    {{ username.split(" ")[0] }}
+                                </div>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border hover:bg-[#11998e] hover:text-white transition duration-200">
+                                <div :class='{ "bg-blue-500": active }' @click="$emit('exit')">
+                                    SAIR
+                                </div>
+                            </MenuItem>
+                        </MenuItems>
+                    </Menu>
+                </div>
             </div>
+            <div v-else>
+                <div class="hidden sm:block w-auto text-gray-100">
+                    <router-link to="/contact" class="mx-2">
+                        CONTATO
+                    </router-link>
+                    <router-link to="/login">
+                        <button class="btn bg-blue-600 mx-2">
+                            ENTRAR
+                        </button>
+                    </router-link>
+
+                    <router-link to="/login">
+                        <button class="btn bg-yellow-500 mx-2">
+                            CADASTRE-SE
+                        </button>
+                    </router-link>
+                </div>
+                <div class="relative sm:hidden block -mb-2">
+                    <Menu>
+                        <MenuButton class="h-10 w-10 text-gray-200">
+                            <Bars3Icon />
+                        </MenuButton>
+                        <MenuItems class="flex flex-col absolute right-0 bg-slate-200 w-40">
+                            <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border hover:bg-[#11998e] hover:text-white transition duration-200">
+                                <router-link to="/contact" :class='{ "bg-blue-500": active }'>
+                                    CONTATO
+                                </router-link>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border hover:bg-[#11998e] hover:text-white transition duration-200">
+                                <router-link to="/login" :class='{ "bg-blue-500": active }' >
+                                    ENTRAR
+                                </router-link>
+                            </MenuItem>
+                            <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border hover:bg-[#11998e] hover:text-white transition duration-200">
+                                <router-link to="/login" :class='{ "bg-blue-500": active }'>
+                                    CADASTRAR-SE
+                                </router-link>
+                            </MenuItem>
+                        </MenuItems>
+                    </Menu>
+                </div>
+
+            </div>
+            
+            
         </div>
-    </nav>
+    </nav> 
+    
 </template>
 
 <script lang="ts">
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { Bars3Icon, UserCircleIcon } from '@heroicons/vue/24/outline'
+
 export default {
     name: "Navbar",
     data() {
         return {};
     },
+    props: {
+        isLogged: {
+            type: Boolean,
+            default: false
+        },
+        username: {
+            type: String,
+            default: ""
+        }
+    },
+    emits: ["exit"],
+    components: {
+        Menu, MenuButton, MenuItems, MenuItem, Bars3Icon, UserCircleIcon
+    }
 };
 </script>

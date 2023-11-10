@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import Navbar from "./components/Navbar.vue";
-</script>
-
 <template>
     <div class="h-screen">
-        <Navbar />
-        <div class="h-full pt-16">
+        <Navbar :isLogged="isLogged" :username="username" @exit="exit"/>
+        <div class="h-full pt-[68px]">
             <router-view >
             </router-view>
         </div>
@@ -27,3 +23,26 @@ import Navbar from "./components/Navbar.vue";
     filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
+
+<script lang="ts">
+import Navbar from "./components/Navbar.vue";
+
+export default {
+    name: "App",
+    data() {
+        return {
+            username: "Seila",
+            isLogged: true,
+        };
+    },
+    components: {
+        Navbar,
+    },
+    methods: {
+        exit() {
+            this.isLogged = false;
+            this.$router.push("/login");
+        },
+    },
+}
+</script>
