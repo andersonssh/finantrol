@@ -9,6 +9,9 @@ select,
 a {
     -webkit-tap-highlight-color: transparent;
 }
+div {
+    @apply cursor-default;
+}
 .btn {
     @apply py-2 px-4 font-semibold rounded-lg shadow-md disabled:opacity-50
    disabled:cursor-not-allowed;

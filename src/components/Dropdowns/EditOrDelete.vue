@@ -20,13 +20,13 @@
                 class="absolute right-0 sm:left-0 sm:right-auto mb-4 bg-white divide-y rounded-lg shadow-lg overflow-hidden"
             >
                 <li
-                    class="px-3 py-2 transition-colors duration-300 hover:bg-gray-200"
+                    class="px-3 py-2 transition-colors duration-300 hover:bg-gray-200 hover:cursor-pointer"
                     @mousedown.prevent="setOption('edit')"
                 >
                     Editar
                 </li>
                 <li
-                    class="px-3 py-2 transition-colors duration-300 hover:bg-gray-200"
+                    class="px-3 py-2 transition-colors duration-300 hover:bg-gray-200 hover:cursor-pointer"
                     @mousedown.prevent="setOption('delete')"
                 >
                     Excluir
