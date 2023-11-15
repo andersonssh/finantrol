@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+import vue3GoogleLogin from "vue3-google-login";
 import App from "./App.vue";
 import Main from "./views/Main.vue";
 import Login from "./views/Login.vue";
@@ -12,11 +13,13 @@ const router = createRouter({
         { path: "/", component: Main },
         { path: "/login", component: Login },
         { path: "/contact", component: Contact }
-    ],
+    ]
 });
 
 const app = createApp(App);
 
 app.use(router);
-
+app.use(vue3GoogleLogin, {
+    clientId: "901323490185-a8891gatq3ugl3hl4eq3qgn9ukia2lue.apps.googleusercontent.com"
+})
 app.mount("#app");

@@ -11,10 +11,7 @@
                 </svg>
             </div>
             <div class="h-32 flex justify-center pt-16 pb-6 px-12">
-                <button class="btn-animated px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-600  hover:text-slate-900  hover:shadow transition duration-150">
-                    <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
-                    <span>Entrar com Google</span>
-                </button>
+                <GoogleLogin :callback="googleLoginCallback"/>
             </div>
             <div class="relative mt-10 h-px bg-gray-300">
                 <div class="absolute left-0 top-0 flex justify-center w-full -m-2">
@@ -59,9 +56,26 @@
 </template>
 
 <script lang="ts">
+import { GoogleLogin } from 'vue3-google-login';
+import api from "../axios";
 export default {
     data() {
         return {};
+    },
+    components: {
+        GoogleLogin,
+    },
+    methods: {
+        googleLoginCallback(response: any) {
+            api.post("/google_login", {
+                credential: response.credential,
+            }).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.log(error);
+            })
+            console.log(response);
+        }
     },
 };
 </script>
