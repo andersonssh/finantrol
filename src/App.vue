@@ -1,10 +1,11 @@
 <template>
     <div class="h-screen">
-        <Navbar :isLogged="isLogged" :username="username" @exit="exit"/>
+        <Navbar @logOut="logOut"/>
         <div class="h-full pt-[68px]">
             <router-view >
             </router-view>
         </div>
+        
 
     </div>
 </template>
@@ -26,22 +27,31 @@
 
 <script lang="ts">
 import Navbar from "./components/Navbar.vue";
+import { useStorage } from "@vueuse/core";
 
 export default {
     name: "App",
     data() {
         return {
-            username: "Seila",
-            isLogged: true,
+            currentUser: useStorage("currentUser", {}),
         };
     },
     components: {
-        Navbar,
+        Navbar
     },
     methods: {
-        exit() {
-            this.isLogged = false;
-            this.$router.push("/login");
+        logOut() {
+            this.currentUser = {}
+        },
+    },
+    watch: {
+        currentUser: {
+            handler(__, ___) {
+                if (Object.keys(this.currentUser).length > 0){
+                    return
+                }
+                this.$router.push("/login");
+            }
         },
     },
 }

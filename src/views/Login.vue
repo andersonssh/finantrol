@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-300 h-full overflow-hidden flex items-center justify-center">
+    <div class="bg-gray-200 h-full overflow-hidden flex items-center justify-center">
         <div class="bg-white w-10/12 sm:w-[550px] shadow-3xl">
             <div
                 class="bg-gray-800 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-4 md:p-8"
@@ -11,7 +11,9 @@
                 </svg>
             </div>
             <div class="h-32 flex justify-center pt-16 pb-6 px-12">
-                <GoogleLogin :callback="googleLoginCallback"/>
+                <div class="hover:cursor-pointer">
+                    <GoogleLogin :callback="googleLoginCallback"/>
+                </div>
             </div>
             <div class="relative mt-10 h-px bg-gray-300">
                 <div class="absolute left-0 top-0 flex justify-center w-full -m-2">
@@ -58,23 +60,28 @@
 <script lang="ts">
 import { GoogleLogin } from 'vue3-google-login';
 import api from "../axios";
+import { useStorage } from "@vueuse/core";
+
 export default {
     data() {
-        return {};
+        return {
+            token: useStorage("token", ""),
+            currentUser: useStorage("currentUser", {})
+        };
     },
+    emits: ["googleLogin"],
     components: {
-        GoogleLogin,
+        GoogleLogin
     },
     methods: {
-        googleLoginCallback(response: any) {
-            api.post("/google_login", {
-                credential: response.credential,
-            }).then((response) => {
-                console.log(response);
-            }).catch((error) => {
-                console.log(error);
+        googleLoginCallback(googleResponse: Object) {
+            api.post("/google_login", googleResponse).then((response) => {
+                this.token = response.data.token;
+                this.currentUser = response.data.user;
+                this.$router.push("/");
+            }).catch(() => {
+                alert("Erro ao fazer login com o Google")
             })
-            console.log(response);
         }
     },
 };

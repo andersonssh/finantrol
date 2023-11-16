@@ -11,7 +11,7 @@
                     >Finantrol</span
                 >
             </router-link>
-            <div v-if="isLogged" class="flex items-center">
+            <div v-if="isLogged(currentUser)" class="flex items-center">
                 <router-link to="/contact" class="mx-4 mt-1 text-gray-200">
                     CONTATO
                 </router-link>
@@ -23,12 +23,13 @@
 
                         <MenuItems class="flex flex-col absolute right-0 bg-slate-200 w-40">
                             <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border">
-                                <div :class='{ "bg-blue-500": active }' @click="$emit('exit')">
-                                    {{ username.split(" ")[0] }}
+                                <div :class='{ "bg-blue-500": active }' @click="$emit('logOut')">
+                                    {{ currentUser.name?.split(" ")[0] }}
+
                                 </div>
                             </MenuItem>
                             <MenuItem v-slot="{ active }" class="p-2 bg-gray-50 border hover:bg-[#11998e] hover:text-white hover:cursor-pointer transition duration-200">
-                                <div :class='{ "bg-blue-500": active }' @click="$emit('exit')">
+                                <div :class='{ "bg-blue-500": active }' @click="$emit('logOut')">
                                     SAIR
                                 </div>
                             </MenuItem>
@@ -77,10 +78,7 @@
                         </MenuItems>
                     </Menu>
                 </div>
-
             </div>
-            
-            
         </div>
     </nav> 
     
@@ -89,25 +87,24 @@
 <script lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { Bars3Icon, UserCircleIcon } from '@heroicons/vue/24/outline'
+import { useStorage } from '@vueuse/core';
 
 export default {
     name: "Navbar",
     data() {
-        return {};
+        return {
+            currentUser: useStorage("currentUser", {}),
+        };
     },
-    props: {
-        isLogged: {
-            type: Boolean,
-            default: false
-        },
-        username: {
-            type: String,
-            default: ""
-        }
-    },
-    emits: ["exit"],
+    emits: ["logOut"],
     components: {
         Menu, MenuButton, MenuItems, MenuItem, Bars3Icon, UserCircleIcon
+    },
+    methods: {
+        isLogged(user: Object){
+            return Object.keys(user || {}).length > 0
+        }
     }
+
 };
 </script>
