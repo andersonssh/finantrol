@@ -62,6 +62,7 @@ import { defineComponent } from "vue";
 import DeleteOrEdit from "../Dropdowns/EditOrDelete.vue";
 import api from "../../axios";
 import { getRegisterValue, Register } from "../../register";
+import { useStorage } from "@vueuse/core";
 
 export default defineComponent({
     name: "Register",
@@ -69,6 +70,7 @@ export default defineComponent({
         return {
             register: {} as Register,
             isExpense: false,
+            user_token: useStorage("token", "").value,
             categoryImages: {
                 entradas: "/src/assets/categories/entradas.png",
                 casa: "/src/assets/categories/casa.png",
@@ -108,6 +110,11 @@ export default defineComponent({
         updateIsPaid(e: any) {
             api.patch(`/registers/${this.register._id}`, {
                 isPaid: e.target.checked,
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.user_token}`,
+                },
             }).then(() => {
                 console.debug("isPaid updated!");
             });

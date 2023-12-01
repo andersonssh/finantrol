@@ -34,6 +34,7 @@ export default {
     data() {
         return {
             currentUser: useStorage("currentUser", {}),
+            token: useStorage("token", ""),
         };
     },
     components: {
@@ -42,6 +43,7 @@ export default {
     methods: {
         logOut() {
             this.currentUser = {}
+            this.token = ""
         },
     },
     watch: {

@@ -50,13 +50,14 @@ import Register from "../components/Cards/Register.vue";
 import api from "../axios";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
 import { Register as RegisterInterface, getTotal, getEntries, getExits, getSortedRegisters } from '../register';
+import { useStorage } from "@vueuse/core";
 
 export default {
     name: "Main",
     data() {
         return {
             registers: [],
-
+            user_token: useStorage("token", "").value,
             total: 0,
             totalEntries: 0,
             totalExits: 0,
@@ -69,7 +70,13 @@ export default {
     },
     methods: {
         getRegisters() {
-            api.get("/registers").then((response) => {
+            api.get("/registers", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.user_token}`,
+                },
+            }
+            ).then((response) => {
                 this.registers = response.data.data;
                 this.total = getTotal(this.registers)
                 this.totalEntries = getTotal(getEntries(this.registers))
@@ -77,19 +84,33 @@ export default {
             });
 
         },
-        //update register
         updateRegister(register: RegisterInterface) {
-            api.put(`/registers/${register._id}`, register).then((_) => {
+            api.put(`/registers/${register._id}`, register, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.user_token}`,
+                },
+            }).then((_) => {
                 this.getRegisters();
             });
         },
         postRegister(register: RegisterInterface){
-            api.post(`/registers`, register).then((_) => {
+            api.post(`/registers`, register, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.user_token}`,
+                },
+            }).then((_) => {
                 this.getRegisters();
             });
         },
         deleteRegister(register: RegisterInterface) {
-            api.delete(`/registers/${register._id}`).then((_) => {
+            api.delete(`/registers/${register._id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${this.user_token}`,
+                },
+            }).then((_) => {
                 this.getRegisters();
             });
         },
