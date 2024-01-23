@@ -93,7 +93,7 @@ export default {
     name: "Navbar",
     data() {
         return {
-            currentUser: useStorage("currentUser", {}),
+            currentUser: useStorage("currentUser", {name: ""}),
         };
     },
     emits: ["logOut"],

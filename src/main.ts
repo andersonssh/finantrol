@@ -14,7 +14,7 @@ const router = createRouter({
         { 
             path: "/",
             component: Main,
-            beforeEnter: (to, from, next) => {
+            beforeEnter: (__, ___, next) => {
                 const currentUser = useStorage("currentUser", {}).value;
                 if (Object.keys(currentUser).length > 0) {
                     next();
