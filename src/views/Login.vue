@@ -62,6 +62,12 @@ import { GoogleLogin } from 'vue3-google-login';
 import api from "../axios";
 import { useStorage } from "@vueuse/core";
 
+api.get("/").then(() => {
+    console.log("API is working")
+}).catch(() => {
+    console.log("API is not working")
+})
+
 export default {
     data() {
         return {
