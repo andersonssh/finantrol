@@ -32,6 +32,7 @@ const app = createApp(App);
 
 app.use(router);
 app.use(vue3GoogleLogin, {
-    clientId: "901323490185-a8891gatq3ugl3hl4eq3qgn9ukia2lue.apps.googleusercontent.com"
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID
 })
+console.log(import.meta.env.VITE_GOOGLE_CLIENT_ID)
 app.mount("#app");
