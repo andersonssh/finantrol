@@ -20,7 +20,7 @@
         </div>
         
     </div>
-    <div class="absolute bottom-0 w-full text-center flex flex-row justify-center items-center bg-gradient-to-r from-[#38ef7d] to-[#11998e] z-20">
+    <div class="fixed bottom-0 w-full text-center flex flex-row justify-center items-center bg-gradient-to-r from-[#38ef7d] to-[#11998e] z-20">
         <div class="mr-10">
             <div class="text-lg sm:text-2xl md:text-4xl text-green-900">
                 ENTRADAS
