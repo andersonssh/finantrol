@@ -76,7 +76,7 @@ export default defineComponent({
                 entradas: "/assets/categories/entradas.png",
                 casa: "/assets/categories/casa.png",
                 comida: "/assets/categories/comida.png",
-                dividas: "/assets/categories/dividas.png",
+                contas: "/assets/categories/contas.png",
                 educação: "/assets/categories/educacao.png",
                 entretenimento: "/assets/categories/entretenimento.png",
                 investimentos: "/assets/categories/investimentos.png",
