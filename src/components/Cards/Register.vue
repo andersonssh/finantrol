@@ -1,4 +1,5 @@
 <template>
+
     <div
         :class="{
             'relative border border-gray-400 md:shadow max-w-md flex': true,
@@ -72,19 +73,19 @@ export default defineComponent({
             isExpense: false,
             user_token: useStorage("token", "").value,
             categoryImages: {
-                entradas: "/src/assets/categories/entradas.png",
-                casa: "/src/assets/categories/casa.png",
-                comida: "/src/assets/categories/comida.png",
-                dividas: "/src/assets/categories/dividas.png",
-                educação: "/src/assets/categories/educacao.png",
-                entretenimento: "/src/assets/categories/entretenimento.png",
-                investimentos: "/src/assets/categories/investimentos.png",
-                lazer: "/src/assets/categories/lazer.png",
-                livre: "/src/assets/categories/livre.png",
-                outros: "/src/assets/categories/outros.png",
-                saúde: "/src/assets/categories/saude.png",
-                transporte: "/src/assets/categories/transporte.png",
-                viagem: "/src/assets/categories/viagem.png",
+                entradas: "/assets/categories/entradas.png",
+                casa: "/assets/categories/casa.png",
+                comida: "/assets/categories/comida.png",
+                dividas: "/assets/categories/dividas.png",
+                educação: "/assets/categories/educacao.png",
+                entretenimento: "/assets/categories/entretenimento.png",
+                investimentos: "/assets/categories/investimentos.png",
+                lazer: "/assets/categories/lazer.png",
+                livre: "/assets/categories/livre.png",
+                outros: "/assets/categories/outros.png",
+                saúde: "/assets/categories/saude.png",
+                transporte: "/assets/categories/transporte.png",
+                viagem: "/assets/categories/viagem.png",
             } as Record<string, string>
         };
     },

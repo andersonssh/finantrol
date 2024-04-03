@@ -3,9 +3,8 @@
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <router-link to="/" class="flex items-center">
                 <img
-                    src="../assets/logo.svg"
+                    src="/assets/logo.svg"
                     class="h-10 mr-3"
-                    alt="Flowbite Logo"
                 />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
                     >Finantrol</span
