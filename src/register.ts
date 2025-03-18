@@ -42,7 +42,7 @@ export function getTotal(registers: Array<Register>){
         (acc, reg) => acc + getRegisterValue(reg), 0)
     let sumExits = getExits(registers).reduce(
         (acc, reg) => acc + getRegisterValue(reg), 0)
-    return sumEntries - sumExits
+    return Number((sumEntries - sumExits).toFixed(2));
 }
 
 

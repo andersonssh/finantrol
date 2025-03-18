@@ -1,5 +1,7 @@
 <template>
     <div class="h-full pb-24 pl-10 pr-10 overflow-y-auto">
+        <SimulationControls @simulation-mode-changed="getRegisters" @data-changed="getRegisters" />
+        
         <div class="text-2xl md:text-4xl text-center mt-5 mb-5">
             <div>
                     TOTAL
@@ -17,6 +19,14 @@
                 v-bind:key="JSON.stringify(register)"
                 class="m-2 sm:m-3 md:m-4 w-[400px] sm:w-[350px]"
             />
+        </div>
+        
+        <div v-if="isLoading" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg p-6 shadow-lg max-w-md text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto mb-4"></div>
+                <p class="text-lg font-semibold">Processando dados...</p>
+                <p class="text-sm text-gray-600 mt-2">Aguarde enquanto carregamos seus registros</p>
+            </div>
         </div>
         
     </div>
@@ -47,81 +57,92 @@
 
 <script lang="ts">
 import Register from "../components/Cards/Register.vue";
-import api from "../axios";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
+import SimulationControls from "../components/SimulationControls.vue";
+import dataService from "../services/dataService";
 import { Register as RegisterInterface, getTotal, getEntries, getExits, getSortedRegisters } from '../register';
-import { useStorage } from "@vueuse/core";
 
 export default {
     name: "Main",
     data() {
         return {
             registers: [],
-            user_token: useStorage("token", "").value,
             total: 0,
             totalEntries: 0,
             totalExits: 0,
             registerModalIsOpen: false,
-            registerOnModal: {}
+            registerOnModal: {},
+            isLoading: false
         };
     },
     mounted() {
         this.getRegisters();
     },
     methods: {
-        getRegisters() {
-            api.get("/registers", {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.user_token}`,
-                },
+        async getRegisters() {
+            try {
+                this.isLoading = true;
+                this.registers = await dataService.getRegisters();
+                this.updateTotals();
+            } catch (error) {
+                console.error("Erro ao carregar registros:", error);
+            } finally {
+                this.isLoading = false;
             }
-            ).then((response) => {
-                this.registers = response.data.data;
-                this.total = getTotal(this.registers)
-                this.totalEntries = getTotal(getEntries(this.registers))
-                this.totalExits = getTotal(getExits(this.registers))
-            });
-
         },
-        updateRegister(register: RegisterInterface) {
-            api.put(`/registers/${register._id}`, register, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.user_token}`,
-                },
-            }).then((_) => {
-                this.getRegisters();
-            });
+        
+        updateTotals() {
+            this.total = getTotal(this.registers);
+            this.totalEntries = getTotal(getEntries(this.registers));
+            this.totalExits = getTotal(getExits(this.registers));
         },
-        postRegister(register: RegisterInterface){
-            api.post(`/registers`, register, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.user_token}`,
-                },
-            }).then((_) => {
-                this.getRegisters();
-            });
+        
+        async updateRegister(register: RegisterInterface) {
+            try {
+                this.isLoading = true;
+                await dataService.updateRegister(register);
+                await this.getRegisters();
+            } catch (error) {
+                console.error("Erro ao atualizar registro:", error);
+            } finally {
+                this.isLoading = false;
+            }
         },
-        deleteRegister(register: RegisterInterface) {
-            api.delete(`/registers/${register._id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.user_token}`,
-                },
-            }).then((_) => {
-                this.getRegisters();
-            });
+        
+        async postRegister(register: Omit<RegisterInterface, "_id">) {
+            try {
+                this.isLoading = true;
+                await dataService.createRegister(register);
+                await this.getRegisters();
+            } catch (error) {
+                console.error("Erro ao criar registro:", error);
+            } finally {
+                this.isLoading = false;
+            }
         },
+        
+        async deleteRegister(register: RegisterInterface) {
+            try {
+                this.isLoading = true;
+                await dataService.deleteRegister(register._id);
+                await this.getRegisters();
+            } catch (error) {
+                console.error("Erro ao excluir registro:", error);
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        
         newRegisterEvent(){
             this.registerOnModal = {}
             this.registerModalIsOpen = true
         },
+        
         editRegisterEvent(register: RegisterInterface){
             this.registerOnModal = register
             this.registerModalIsOpen = true
         },
+        
         registerModalSubmitHandler(register: RegisterInterface){
             if(register._id){
                 this.updateRegister(register)
@@ -131,15 +152,18 @@ export default {
             this.registerOnModal = {}
             this.registerModalIsOpen = false
         },
+        
         registerModalCancelHandler(){
             this.registerOnModal = {}
             this.registerModalIsOpen = false
         },
+        
         getSortedRegisters
     },
     components: {
         Register,
         RegisterModal,
+        SimulationControls,
     },
 };
 </script>

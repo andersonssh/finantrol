@@ -10,6 +10,12 @@
                     >Finantrol</span
                 >
             </router-link>
+            
+            <div v-if="isSimulationMode" class="absolute left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-3 py-1 rounded-b-lg shadow-md flex items-center">
+                <i class="fa-solid fa-flask-vial mr-2"></i>
+                <span>MODO SIMULAÇÃO</span>
+            </div>
+            
             <div v-if="isLogged(currentUser)" class="flex items-center">
                 <router-link to="/contact" class="mx-4 mt-1 text-gray-200">
                     CONTATO
@@ -87,6 +93,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { Bars3Icon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useStorage } from '@vueuse/core';
+import dataService from '../services/dataService';
 
 export default {
     name: "Navbar",
@@ -94,6 +101,11 @@ export default {
         return {
             currentUser: useStorage("currentUser", {name: ""}),
         };
+    },
+    computed: {
+        isSimulationMode() {
+            return dataService.isInSimulationMode();
+        }
     },
     emits: ["logOut"],
     components: {
