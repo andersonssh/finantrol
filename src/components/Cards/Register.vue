@@ -2,14 +2,14 @@
 
     <div
         :class="{
-            'relative border border-gray-400 md:shadow max-w-md flex': true,
+            'relative border border-gray-400 md:shadow-lg max-w-md flex rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02]': true,
             'bg-green-500': !isExpense,
             'bg-red-600': isExpense,
         }"
     >
         <div class="rounded-full flex items-center justify-center ml-2">
             <img
-                class="object-cover m-3 h-20 sm:h-24 rounded-full"
+                class="object-cover m-3 h-20 sm:h-24 rounded-full ring-4 ring-white/20 transition-transform duration-300 hover:scale-110"
                 :src="getRegisterImageSrc(register.category)"
                 alt="card 1"
             />
@@ -19,11 +19,11 @@
         </div>
 
         <div class="w-full max-w-full pl-2 pr-4 py-3 sm:py-4 sm:pl-3">
-            <div class="font-semibold text-gray-100 my-2 hover:underline text-lg">
+            <div class="font-semibold text-gray-100 my-2 hover:underline text-lg transition-colors duration-200">
                 {{ register.description || "Sem descrição" }}
             </div>
             <div class="flex">
-                <div class="text-4xl sm:text-5xl mb-4 w-full flex text-gray-100 items-center">
+                <div class="text-4xl sm:text-5xl mb-4 w-full flex text-gray-100 items-center font-bold tracking-tight">
                     {{ Math.abs(register.value) }}
                 </div>
                 <div class="checkbox-wrapper-31">
@@ -47,9 +47,9 @@
                 </div>
             </div>
 
-            <div class="text-xs text-gray-100 font-medium uppercase flex flex-wrap">
+            <div class="text-xs text-gray-100 font-medium uppercase flex flex-wrap gap-1">
                 <div class="pr-1">{{ register.category }} &bull;</div>
-                <div>
+                <div class="flex items-center gap-1">
                     <i
                         class="fa-solid fa-triangle-exclamation text-yellow-400"
                         v-show="register.isRequired"
