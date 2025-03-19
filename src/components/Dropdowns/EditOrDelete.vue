@@ -17,7 +17,7 @@
         >
             <ul
                 v-show="isOptionsExpanded"
-                class="absolute right-0 sm:left-0 sm:right-auto mb-4 bg-white divide-y rounded-lg shadow-lg overflow-hidden"
+                class="absolute right-0 top-full mt-2 bg-white divide-y rounded-lg shadow-lg overflow-hidden z-50"
             >
                 <li
                     class="px-3 py-2 transition-colors duration-300 hover:bg-gray-200 hover:cursor-pointer"

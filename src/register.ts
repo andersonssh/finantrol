@@ -16,13 +16,15 @@ export const categories = [
     "contas",
     "educação",
     "entretenimento",
+    "hortifruti",
     "investimentos",
     "lazer",
     "livre",
+    "outros",
+    "proteínas",
     "saúde",
     "transporte",
     "viagem",
-    "outros",
 ]
 
 export function getSortedRegisters(registers: Array<Register>){

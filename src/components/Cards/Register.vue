@@ -14,7 +14,7 @@
                 alt="card 1"
             />
         </div>
-        <div class="absolute top-2 right-4">
+        <div class="absolute top-2 right-4 z-50">
             <DeleteOrEdit @delete="$emit('delete')" @edit="$emit('edit')"/>
         </div>
 
