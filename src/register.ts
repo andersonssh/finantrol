@@ -33,6 +33,7 @@ export function getSortedRegisters(registers: Array<Register>){
     let sortedRegisters: Register[] = []
     for(let category of categories){
         let selectedRegisters: Register[] = registers.filter((reg) => reg.category == category)
+        selectedRegisters.sort((a, b) => getRegisterValue(b) - getRegisterValue(a))
         sortedRegisters.push(...selectedRegisters)
     }
     return sortedRegisters
