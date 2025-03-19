@@ -31,13 +31,13 @@
         </div>
     </div>
     <div class="fixed bottom-0 w-full text-center bg-gradient-to-r from-indigo-900 to-purple-800 shadow-lg z-20">
-        <div class="bg-indigo-800 bg-opacity-70 p-2 border-t border-indigo-600">
+        <div class="bg-indigo-800 bg-opacity-70 py-1 px-2 border-t border-indigo-600">
             <div class="text-white text-base sm:text-lg font-medium">TOTAL</div>
             <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white">{{ total }}</div>
         </div>
         
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-2 sm:p-3">
-            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 py-1 px-2">
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg py-1 px-2 text-white">
                 <div class="text-sm sm:text-base md:text-lg font-medium text-green-400">
                     ENTRADAS
                 </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             
-            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg py-1 px-2 text-white">
                 <div class="text-sm sm:text-base md:text-lg font-medium text-red-400">
                     SAÍDAS
                 </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             
-            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg py-1 px-2 text-white">
                 <div class="text-sm sm:text-base md:text-lg font-medium text-yellow-400">
                     PAGO
                 </div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             
-            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg py-1 px-2 text-white">
                 <div class="text-sm sm:text-base md:text-lg font-medium text-blue-400">
                     A PAGAR
                 </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
         
-        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl mx-auto -mt-16 sm:-mt-20 md:-mt-24 flex items-center justify-center btn-animated fixed left-1/2 transform -translate-x-1/2 z-30 border-2 border-indigo-200">
+        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl mx-auto -mt-14 sm:-mt-18 md:-mt-22 flex items-center justify-center btn-animated fixed left-1/2 transform -translate-x-1/2 z-30 border-2 border-indigo-200">
             <i class="fa-solid fa-plus text-white text-3xl sm:text-4xl"></i>
         </button>
     </div>

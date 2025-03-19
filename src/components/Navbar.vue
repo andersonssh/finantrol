@@ -1,12 +1,12 @@
 <template>
     <nav class="fixed top-0 w-full bg-gradient-to-r from-indigo-900 to-purple-800 z-20 shadow-lg">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
             <router-link to="/" class="flex items-center">
                 <img
                     src="/assets/logo.svg"
-                    class="h-10 mr-3"
+                    class="h-9 mr-2"
                 />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white"
+                <span class="self-center text-xl font-semibold whitespace-nowrap text-white"
                     >Finantrol</span
                 >
             </router-link>

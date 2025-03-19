@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen">
         <Navbar @logOut="logOut"/>
-        <div class="h-full pt-[68px]">
+        <div class="h-full pt-[60px]">
             <router-view >
             </router-view>
         </div>
