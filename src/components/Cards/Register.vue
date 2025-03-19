@@ -32,6 +32,9 @@
                         v-show="isExpense"
                         v-model="register.isPaid"
                         @click="updateIsPaid($event)"
+                        :disabled="isInSimulationMode"
+                        :title="isInSimulationMode ? 'Não é possível alterar pagamentos no modo simulação' : 'Marcar como pago'"
+                        :class="{ 'simulation-disabled': isInSimulationMode }"
                     />
                     <svg viewBox="0 0 35.6 35.6" v-show="isExpense">
                         <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
@@ -64,6 +67,7 @@ import DeleteOrEdit from "../Dropdowns/EditOrDelete.vue";
 import api from "../../axios";
 import { getRegisterValue, Register } from "../../register";
 import { useStorage } from "@vueuse/core";
+import dataService from "../../services/dataService";
 
 export default defineComponent({
     name: "Register",
@@ -89,6 +93,11 @@ export default defineComponent({
             } as Record<string, string>
         };
     },
+    computed: {
+        isInSimulationMode() {
+            return dataService.isInSimulationMode();
+        }
+    },
     mounted() {
         this.register = JSON.parse(JSON.stringify(this.registerProp));
         this.initValues();
@@ -109,6 +118,13 @@ export default defineComponent({
             this.isExpense = this.register.category != "entradas";
         },
         updateIsPaid(e: any) {
+            if (this.isInSimulationMode) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.register.isPaid = !e.target.checked;
+                return;
+            }
+            
             this.register.isPaid = e.target.checked;
             
             api.patch(`/registers/${this.register._id}`, {
@@ -183,6 +199,9 @@ export default defineComponent({
 }
 .checkbox-wrapper-31 input[type="checkbox"]:hover {
     cursor: pointer;
+}
+.checkbox-wrapper-31 input[type="checkbox"].simulation-disabled:hover {
+    cursor: not-allowed;
 }
 .checkbox-wrapper-31 input[type="checkbox"]:checked + svg .background {
     fill: #B81F1F;
