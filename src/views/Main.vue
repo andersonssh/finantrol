@@ -74,8 +74,8 @@
             </div>
         </div>
         
-        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl mx-auto -mt-14 sm:-mt-18 md:-mt-22 flex items-center justify-center btn-animated fixed left-1/2 transform -translate-x-1/2 z-30 border-2 border-indigo-200">
-            <i class="fa-solid fa-plus text-white text-3xl sm:text-4xl"></i>
+        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl mx-auto fixed -bottom-1 left-1/2 transform -translate-x-1/2 z-30 border-2 border-indigo-200">
+            <i class="fa-solid fa-file-circle-plus text-white text-3xl sm:text-4xl"></i>
         </button>
     </div>
     <RegisterModal @submit="registerModalSubmitHandler" @cancel="registerModalCancelHandler" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
