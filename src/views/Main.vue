@@ -1,20 +1,13 @@
 <template>
-    <div class="h-full pb-24 pl-10 pr-10 overflow-y-auto">
+    <div class="h-full pb-52 sm:pb-38 pl-10 pr-10 overflow-y-auto" ref="mainContainer">
         <SimulationControls @simulation-mode-changed="getRegisters" @data-changed="getRegisters" />
         
-        <div class="text-2xl md:text-4xl text-center mt-5 mb-5">
-            <div>
-                    TOTAL
-            </div>
-            <div>
-                {{ total }}
-            </div>
-        </div>
         <div class="flex flex-row flex-wrap justify-center">
             <Register
                 :registerProp="register"
                 @delete="deleteRegister(register)"
                 @edit="editRegisterEvent(register)"
+                @payment-status-changed="handlePaymentStatusChanged"
                 v-for="register in getSortedRegisters(registers)"
                 v-bind:key="JSON.stringify(register)"
                 class="m-2 sm:m-3 md:m-4 w-[400px] sm:w-[350px]"
@@ -29,28 +22,61 @@
             </div>
         </div>
         
+        <div 
+            v-if="showFloatingTotal" 
+            class="fixed top-[68px] left-0 right-0 bg-gradient-to-r from-indigo-900 to-purple-800 p-2 shadow-lg text-center z-10 animate-fadeIn"
+        >
+            <div class="text-white text-base font-medium">TOTAL</div>
+            <div class="text-xl sm:text-2xl font-bold text-white">{{ total }}</div>
+        </div>
     </div>
-    <div class="fixed bottom-0 w-full text-center flex flex-row justify-center items-center bg-gradient-to-r from-[#38ef7d] to-[#11998e] z-20">
-        <div class="mr-10">
-            <div class="text-lg sm:text-2xl md:text-4xl text-green-900">
-                ENTRADAS
-            </div>
-            <span class="text-lg sm:text-2xl md:text-4xl">
-                {{ totalEntries }}
-            </span>
+    <div class="fixed bottom-0 w-full text-center bg-gradient-to-r from-indigo-900 to-purple-800 shadow-lg z-20">
+        <div class="bg-indigo-800 bg-opacity-70 p-2 border-t border-indigo-600">
+            <div class="text-white text-base sm:text-lg font-medium">TOTAL</div>
+            <div class="text-xl sm:text-2xl md:text-3xl font-bold text-white">{{ total }}</div>
         </div>
         
-        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-blue-600 mx-4 my-4 btn-animated">
-            <i class="fa-solid fa-plus text-white text-5xl"></i>
-        </button>
-        <div class="ml-10">
-            <div class="text-lg sm:text-2xl md:text-4xl text-red-600">
-                SAÍDAS
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-2 sm:p-3">
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+                <div class="text-sm sm:text-base md:text-lg font-medium text-green-400">
+                    ENTRADAS
+                </div>
+                <div class="text-base sm:text-xl md:text-2xl font-bold">
+                    {{ totalEntries }}
+                </div>
             </div>
-            <span class="text-lg sm:text-2xl md:text-4xl">
-                {{ totalExits }}
-            </span>
+            
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+                <div class="text-sm sm:text-base md:text-lg font-medium text-red-400">
+                    SAÍDAS
+                </div>
+                <div class="text-base sm:text-xl md:text-2xl font-bold">
+                    {{ totalExits }}
+                </div>
+            </div>
+            
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+                <div class="text-sm sm:text-base md:text-lg font-medium text-yellow-400">
+                    PAGO
+                </div>
+                <div class="text-base sm:text-xl md:text-2xl font-bold">
+                    {{ totalPaid }}
+                </div>
+            </div>
+            
+            <div class="bg-indigo-800 bg-opacity-50 rounded-lg p-2 text-white">
+                <div class="text-sm sm:text-base md:text-lg font-medium text-blue-400">
+                    A PAGAR
+                </div>
+                <div class="text-base sm:text-xl md:text-2xl font-bold">
+                    {{ totalUnpaid }}
+                </div>
+            </div>
         </div>
+        
+        <button @click="newRegisterEvent" class="rounded-full w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl mx-auto -mt-16 sm:-mt-20 md:-mt-24 flex items-center justify-center btn-animated fixed left-1/2 transform -translate-x-1/2 z-30 border-2 border-indigo-200">
+            <i class="fa-solid fa-plus text-white text-3xl sm:text-4xl"></i>
+        </button>
     </div>
     <RegisterModal @submit="registerModalSubmitHandler" @cancel="registerModalCancelHandler" :registerProp="registerOnModal" v-if="registerModalIsOpen"/>
 </template>
@@ -60,25 +86,29 @@ import Register from "../components/Cards/Register.vue";
 import RegisterModal from "../components/Modals/RegisterModal.vue";
 import SimulationControls from "../components/SimulationControls.vue";
 import dataService from "../services/dataService";
-import { Register as RegisterInterface, getTotal, getEntries, getExits, getSortedRegisters } from '../register';
+import { Register as RegisterInterface, getTotal, getEntries, getExits, getSortedRegisters, getRegisterValue } from '../register';
 
 export default {
     name: "Main",
     data() {
         return {
-            registers: [],
+            registers: [] as RegisterInterface[],
             total: 0,
             totalEntries: 0,
             totalExits: 0,
+            totalPaid: 0,
+            totalUnpaid: 0,
             registerModalIsOpen: false,
-            registerOnModal: {},
-            isLoading: false
+            registerOnModal: {} as Partial<RegisterInterface>,
+            isLoading: false,
+            showFloatingTotal: false
         };
     },
     mounted() {
         this.getRegisters();
     },
     methods: {
+        
         async getRegisters() {
             try {
                 this.isLoading = true;
@@ -91,10 +121,26 @@ export default {
             }
         },
         
+        handlePaymentStatusChanged(updatedRegister: RegisterInterface) {
+            const index = this.registers.findIndex(r => r._id === updatedRegister._id);
+            if (index !== -1) {
+                this.registers[index].isPaid = updatedRegister.isPaid;
+                
+                this.updateTotals();
+            }
+        },
+        
         updateTotals() {
             this.total = getTotal(this.registers);
             this.totalEntries = getTotal(getEntries(this.registers));
             this.totalExits = getTotal(getExits(this.registers));
+            
+            const exits = getExits(this.registers);
+            const paidExits = exits.filter(reg => reg.isPaid);
+            const unpaidExits = exits.filter(reg => !reg.isPaid);
+            
+            this.totalPaid = Number(Math.abs(paidExits.reduce((acc, reg) => acc + getRegisterValue(reg), 0)).toFixed(2));
+            this.totalUnpaid = Number(Math.abs(unpaidExits.reduce((acc, reg) => acc + getRegisterValue(reg), 0)).toFixed(2));
         },
         
         async updateRegister(register: RegisterInterface) {
@@ -134,28 +180,28 @@ export default {
         },
         
         newRegisterEvent(){
-            this.registerOnModal = {}
-            this.registerModalIsOpen = true
+            this.registerOnModal = {} as Partial<RegisterInterface>;
+            this.registerModalIsOpen = true;
         },
         
         editRegisterEvent(register: RegisterInterface){
-            this.registerOnModal = register
-            this.registerModalIsOpen = true
+            this.registerOnModal = register;
+            this.registerModalIsOpen = true;
         },
         
         registerModalSubmitHandler(register: RegisterInterface){
             if(register._id){
-                this.updateRegister(register)
-            }else{
-                this.postRegister(register)
+                this.updateRegister(register);
+            } else {
+                this.postRegister(register);
             }
-            this.registerOnModal = {}
-            this.registerModalIsOpen = false
+            this.registerOnModal = {} as Partial<RegisterInterface>;
+            this.registerModalIsOpen = false;
         },
         
         registerModalCancelHandler(){
-            this.registerOnModal = {}
-            this.registerModalIsOpen = false
+            this.registerOnModal = {} as Partial<RegisterInterface>;
+            this.registerModalIsOpen = false;
         },
         
         getSortedRegisters
@@ -167,3 +213,20 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 0.95;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+</style>

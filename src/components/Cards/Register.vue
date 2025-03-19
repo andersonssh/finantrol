@@ -93,7 +93,7 @@ export default defineComponent({
         this.register = JSON.parse(JSON.stringify(this.registerProp));
         this.initValues();
     },
-    emits: ["delete", "edit"],
+    emits: ["delete", "edit", "payment-status-changed"],
     props: {
         registerProp: {
             type: Object,
@@ -109,6 +109,8 @@ export default defineComponent({
             this.isExpense = this.register.category != "entradas";
         },
         updateIsPaid(e: any) {
+            this.register.isPaid = e.target.checked;
+            
             api.patch(`/registers/${this.register._id}`, {
                 isPaid: e.target.checked,
             }, {
@@ -118,6 +120,10 @@ export default defineComponent({
                 },
             }).then(() => {
                 console.debug("isPaid updated!");
+                this.$emit('payment-status-changed', this.register);
+            }).catch(error => {
+                console.error("Erro ao atualizar status de pagamento:", error);
+                this.register.isPaid = !e.target.checked;
             });
         },
         getRegisterImageSrc(category: string) {
