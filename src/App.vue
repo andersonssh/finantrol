@@ -1,12 +1,10 @@
 <template>
-    <div class="h-screen">
+    <div class="h-screen" :class="{ 'privacy-mode': isHidden }">
         <Navbar @logOut="logOut"/>
         <div class="h-full pt-[60px]">
-            <router-view >
+            <router-view>
             </router-view>
         </div>
-        
-
     </div>
 </template>
 
@@ -23,6 +21,26 @@
 .logo.vue:hover {
     filter: drop-shadow(0 0 2em #42b883aa);
 }
+
+.privacy-mode {
+    filter: blur(20px);
+    -webkit-filter: blur(20px);
+    opacity: 0.1;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.privacy-mode::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
 </style>
 
 <script lang="ts">
@@ -35,6 +53,7 @@ export default {
         return {
             currentUser: useStorage("currentUser", {}),
             token: useStorage("token", ""),
+            isHidden: false,
         };
     },
     components: {
@@ -44,7 +63,18 @@ export default {
         logOut() {
             this.currentUser = {}
             this.token = ""
-        },
+        }
+    },
+    mounted() {
+        document.addEventListener("visibilitychange", () => {
+            const state = document.visibilityState;
+            if (state === "hidden") {
+                this.isHidden = true
+            }
+            if (state === "visible") {
+                this.isHidden = false
+            }
+        });
     },
     watch: {
         currentUser: {
