@@ -5,6 +5,7 @@ export interface Register {
     isRequired: boolean;
     isPercentage: boolean;
     isPaid: boolean;
+    isHidden: boolean;
     percentageOn: Array<Register>;
     value: number;
 }

@@ -68,8 +68,8 @@
     </div>
 
     <div v-if="isSimulationMode" class="mt-3 text-sm text-gray-600 bg-white p-3 rounded border border-gray-200">
-      <p class="font-semibold mb-1">Simule novos gastos e entradas sem afetar os seus dados reais</p>
-      <p class="mt-1">SINCRONIZE com seus dados reais para iniciar a simulação. LIMPE e inicie uma simulação do zero. EXPORTE uma simulação para ver depois. IMPORTE uma simulação feita anteriormente.</p>
+      <p class="font-semibold mb-1">Simule novos gastos ou entradas (não afeta os dados reais)</p>
+      <p class="mt-1">SINCRONIZAR: copia os dados reais para o ambiente de simulação . LIMPAR: Apaga todos os registros da simulação. EXPORTAR: gera um arquivo com os dados da simulação. IMPORTAR: gera uma simulação apartir de um arquivo.</p>
     </div>
     
     <div v-if="showNotification" class="mt-2 p-2 rounded" :class="notificationClass">

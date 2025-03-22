@@ -24,7 +24,7 @@
             </div>
             <div class="flex">
                 <div class="text-4xl sm:text-5xl mb-4 w-full flex text-gray-100 items-center font-bold tracking-tight">
-                    {{ Math.abs(register.value) }}
+                    {{ register.isHidden ? "****" : Math.abs(register.value) }}
                 </div>
                 <div class="checkbox-wrapper-31">
                     <input

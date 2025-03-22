@@ -124,6 +124,33 @@
                                                     />
                                                 </Switch>
                                             </div>
+                                            <div>
+                                                <label class="block mb-1 text-base mt-4" for="isHidden"
+                                                    >Ocultar valor</label
+                                                >
+                                                <Switch
+                                                    id="isHidden"
+                                                    v-model="register.isHidden"
+                                                    :class="
+                                                        register.isHidden
+                                                            ? 'bg-purple-600'
+                                                            : 'bg-gray-200'
+                                                    "
+                                                    class="relative inline-flex h-8 w-16 items-center rounded-full"
+                                                >
+                                                    <span class="sr-only"
+                                                        >Ocultar valor</span
+                                                    >
+                                                    <span
+                                                        :class="
+                                                            register.isHidden
+                                                                ? 'translate-x-10'
+                                                                : 'translate-x-1'
+                                                        "
+                                                        class="inline-block h-5 w-5 transform rounded-full bg-white transition"
+                                                    />
+                                                </Switch>
+                                            </div>
                                             <div class="flex flex-col">
                                                 <label
                                                     for="value"
