@@ -90,6 +90,8 @@ export default defineComponent({
                 saúde: "/assets/categories/saude.png",
                 transporte: "/assets/categories/transporte.png",
                 viagem: "/assets/categories/viagem.png",
+                proteínas: "/assets/categories/proteinas.png",
+                hortifruti: "/assets/categories/hortifruti.png"
             } as Record<string, string>
         };
     },
@@ -143,6 +145,8 @@ export default defineComponent({
             });
         },
         getRegisterImageSrc(category: string) {
+            console.log(category)
+            console.log(this.categoryImages[category])
             return this.categoryImages[category];
         },
     },
