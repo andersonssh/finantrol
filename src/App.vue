@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen" :class="{ 'privacy-mode': isHidden }">
+    <div class="h-screen">
         <Navbar @logOut="logOut"/>
         <div class="h-full pt-[60px]">
             <router-view>
@@ -64,17 +64,6 @@ export default {
             this.currentUser = {}
             this.token = ""
         }
-    },
-    mounted() {
-        document.addEventListener("visibilitychange", () => {
-            const state = document.visibilityState;
-            if (state === "hidden") {
-                this.isHidden = true
-            }
-            if (state === "visible") {
-                this.isHidden = false
-            }
-        });
     },
     watch: {
         currentUser: {
